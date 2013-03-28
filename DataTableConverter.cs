@@ -36,6 +36,11 @@ namespace Serialization
 
             DataTable table = new DataTable();
 
+            if (jObject("TableName") != null)
+            {
+                table.TableName = jObject("TableName").ToString();
+            }
+
             if (jObject("Columns") == null)
                 return table;
 
@@ -300,6 +305,9 @@ namespace Serialization
             DataTable table = value as DataTable;
 
             writer.WriteStartObject();
+
+            writer.WritePropertyName("TableName");
+            writer.WriteValue(table.TableName);
 
             writer.WritePropertyName("Columns");
             writer.WriteStartArray();

@@ -33,6 +33,10 @@ Namespace Serialization
 
             Dim table As DataTable = New DataTable()
 
+            If jObject("TableName") IsNot Nothing Then
+                table.TableName = jObject("TableName").ToString()
+            End If
+
             If jObject("Columns") Is Nothing Then Return table
 
             ' Loop through the columns in the table and apply any properties provided
@@ -235,6 +239,9 @@ Namespace Serialization
             Dim table As DataTable = TryCast(value, DataTable)
 
             writer.WriteStartObject()
+
+            writer.WritePropertyName("TableName")
+            writer.WriteValue(table.TableName)
 
             writer.WritePropertyName("Columns")
             writer.WriteStartArray()
