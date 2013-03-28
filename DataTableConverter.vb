@@ -285,13 +285,15 @@ Namespace Serialization
             writer.WriteStartArray()
 
             For Each row As DataRow In table.Rows
-                writer.WriteStartArray()
+                If row.RowState <> DataRowState.Deleted AndAlso row.RowState <> DataRowState.Detached Then
+                    writer.WriteStartArray()
 
-                For index As Integer = 0 To table.Columns.Count - 1
-                    writer.WriteValue(row(index))
-                Next
+                    For index As Integer = 0 To table.Columns.Count - 1
+                        writer.WriteValue(row(index))
+                    Next
 
-                writer.WriteEndArray()
+                    writer.WriteEndArray()
+                End If
             Next
 
             writer.WriteEndArray()

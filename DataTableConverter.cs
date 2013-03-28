@@ -353,14 +353,17 @@ namespace Serialization
 
             foreach (DataRow row in table.Rows)
             {
-                writer.WriteStartArray();
-
-                for (int index = 0; index <= table.Columns.Count - 1; index++)
+                if (row.RowState != DataRowState.Deleted && row.RowState != DataRowState.Detached)
                 {
-                    writer.WriteValue(row[index]);
-                }
+                    writer.WriteStartArray();
 
-                writer.WriteEndArray();
+                    for (int index = 0; index <= table.Columns.Count - 1; index++)
+                    {
+                        writer.WriteValue(row[index]);
+                    }
+
+                    writer.WriteEndArray();
+                }
             }
 
             writer.WriteEndArray();
