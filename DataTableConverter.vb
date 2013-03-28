@@ -208,6 +208,20 @@ Namespace Serialization
                 Next
             End If
 
+            ' Add the primary key to the table if supplied
+            If jObject("PrimaryKey") IsNot Nothing Then
+                Dim primaryKey As New List(Of DataColumn)
+                For Each jPrimaryKey As JValue In jObject("PrimaryKey")
+                    Dim column As DataColumn = table.Columns(jPrimaryKey.ToString())
+                    If column Is Nothing Then
+                        Throw New ApplicationException("Invalid primary key.")
+                    Else
+                        primaryKey.Add(column)
+                    End If
+                Next
+                table.PrimaryKey = primaryKey.ToArray()
+            End If
+
             Return table
         End Function
 
@@ -273,6 +287,17 @@ Namespace Serialization
                 writer.WriteEndArray()
             Next
 
+            writer.WriteEndArray()
+
+            ' Write out primary key if the table has one. This will be useful when deserializing the table.
+            ' We will write it out as an array of column names
+            writer.WritePropertyName("PrimaryKey")
+            writer.WriteStartArray()
+            If table.PrimaryKey.Length > 0 Then
+                For Each column As DataColumn In table.PrimaryKey
+                    writer.WriteValue(column.ColumnName)
+                Next
+            End If
             writer.WriteEndArray()
 
             writer.WriteEndObject()
