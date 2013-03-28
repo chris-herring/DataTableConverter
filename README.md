@@ -11,7 +11,7 @@ Include the convert into your project.
 Then when serializing/deserializing an object include the converter
 
 ```
-string json = JsonConvert.SerializeObject(extract.Data, new Serialization.DataTableConverter());
+string json = JsonConvert.SerializeObject(table, new Serialization.DataTableConverter());
 DataTable table = JsonConvert.DeserializeObject<DataTable>(json, new Serialization.DataTableConverter());
 ```
 
