@@ -32,7 +32,7 @@ namespace Serialization
         /// <param name="serializer">The serializer.</param><returns></returns>
         public override object ReadJson(Newtonsoft.Json.JsonReader reader, System.Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
         {
-            JObject jObject = jObject.Load(reader);
+            JObject jObject = JObject.Load(reader);
 
             DataTable table = new DataTable();
 
