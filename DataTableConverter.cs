@@ -1,6 +1,9 @@
+}
 using System.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System;
 
 namespace Serialization
 {
@@ -36,16 +39,16 @@ namespace Serialization
 
             DataTable table = new DataTable();
 
-            if (jObject("TableName") != null)
+            if (jObject["TableName"] != null)
             {
-                table.TableName = jObject("TableName").ToString();
+                table.TableName = jObject["TableName"].ToString();
             }
 
-            if (jObject("Columns") == null)
+            if (jObject["Columns"] == null)
                 return table;
 
             // Loop through the columns in the table and apply any properties provided
-            foreach (JObject jColumn in jObject("Columns"))
+            foreach (JObject jColumn in jObject["Columns"])
             {
                 DataColumn column = new DataColumn();
                 JToken token = default(JToken);
@@ -105,7 +108,7 @@ namespace Serialization
                 token = jColumn.SelectToken("DateTimeMode");
                 if (token != null)
                 {
-                    column.DateTimeMode = Enum.Parse(typeof(System.Data.DataSetDateTime), token.Value<string>());
+                    column.DateTimeMode = (DataSetDateTime)Enum.Parse(typeof(System.Data.DataSetDateTime), token.Value<string>());
                 }
 
                 // Can't set default value on auto increment column
@@ -115,124 +118,124 @@ namespace Serialization
                     if (token != null)
                     {
                         // If a default value is provided then cast to the columns data type
-                        switch (column.DataType)
+                        switch (column.DataType.Name)
                         {
-                            case typeof(System.Boolean):
-                                bool defaultValue = false;
-                                if (bool.TryParse(token.ToString(), out defaultValue))
+                            case "Boolean":
+                                bool defaultValueBool = false;
+                                if (bool.TryParse(token.ToString(), out defaultValueBool))
                                 {
-                                    column.DefaultValue = defaultValue;
+                                    column.DefaultValue = defaultValueBool;
                                 }
                                 break;
-                            case typeof(System.Byte):
-                                byte defaultValue = 0;
-                                if (byte.TryParse(token.ToString(), out defaultValue))
+                            case "Byte":
+                                byte defaultValueByte = 0;
+                                if (byte.TryParse(token.ToString(), out defaultValueByte))
                                 {
-                                    column.DefaultValue = defaultValue;
+                                    column.DefaultValue = defaultValueByte;
                                 }
                                 break;
-                            case typeof(System.Char):
-                                char defaultValue = '\0';
-                                if (char.TryParse(token.ToString(), out defaultValue))
+                            case "Char":
+                                char defaultValueChar = '\0';
+                                if (char.TryParse(token.ToString(), out defaultValueChar))
                                 {
-                                    column.DefaultValue = defaultValue;
+                                    column.DefaultValue = defaultValueChar;
                                 }
                                 break;
-                            case typeof(System.DateTime):
-                                DateTime defaultValue = default(DateTime);
-                                if (DateTime.TryParse(token.ToString(), out defaultValue))
+                            case "DateTime":
+                                DateTime defaultValueDateTime = default(DateTime);
+                                if (DateTime.TryParse(token.ToString(), out defaultValueDateTime))
                                 {
-                                    column.DefaultValue = defaultValue;
+                                    column.DefaultValue = defaultValueDateTime;
                                 }
                                 break;
-                            case typeof(System.Decimal):
-                                decimal defaultValue = default(decimal);
-                                if (decimal.TryParse(token.ToString(), out defaultValue))
+                            case "Decimal":
+                                decimal defaultValueDeciumal = default(decimal);
+                                if (decimal.TryParse(token.ToString(), out defaultValueDeciumal))
                                 {
-                                    column.DefaultValue = defaultValue;
+                                    column.DefaultValue = defaultValueDeciumal;
                                 }
                                 break;
-                            case typeof(System.Double):
-                                double defaultValue = 0;
-                                if (double.TryParse(token.ToString(), out defaultValue))
+                            case "Double":
+                                double defaultValueDouble = 0;
+                                if (double.TryParse(token.ToString(), out defaultValueDouble))
                                 {
-                                    column.DefaultValue = defaultValue;
+                                    column.DefaultValue = defaultValueDouble;
                                 }
                                 break;
-                            case typeof(System.Guid):
-                                Guid defaultValue = default(Guid);
-                                if (Guid.TryParse(token.ToString(), out defaultValue))
+                            case "Guid":
+                                Guid defaultValueGuid = default(Guid);
+                                if (Guid.TryParse(token.ToString(), out defaultValueGuid))
                                 {
-                                    column.DefaultValue = defaultValue;
+                                    column.DefaultValue = defaultValueGuid;
                                 }
                                 break;
-                            case typeof(System.Int16):
-                                Int16 defaultValue = default(Int16);
-                                if (Int16.TryParse(token.ToString(), out defaultValue))
+                            case "Int16":
+                                Int16 defaultValueInt16 = default(Int16);
+                                if (Int16.TryParse(token.ToString(), out defaultValueInt16))
                                 {
-                                    column.DefaultValue = defaultValue;
+                                    column.DefaultValue = defaultValueInt16;
                                 }
                                 break;
-                            case typeof(System.Int32):
-                                Int32 defaultValue = default(Int32);
-                                if (Int32.TryParse(token.ToString(), out defaultValue))
+                            case "Int32":
+                                Int32 defaultValueInt32 = default(Int32);
+                                if (Int32.TryParse(token.ToString(), out defaultValueInt32))
                                 {
-                                    column.DefaultValue = defaultValue;
+                                    column.DefaultValue = defaultValueInt32;
                                 }
                                 break;
-                            case typeof(System.Int64):
-                                Int64 defaultValue = default(Int64);
-                                if (Int64.TryParse(token.ToString(), out defaultValue))
+                            case "Int64":
+                                Int64 defaultValueInt64 = default(Int64);
+                                if (Int64.TryParse(token.ToString(), out defaultValueInt64))
                                 {
-                                    column.DefaultValue = defaultValue;
+                                    column.DefaultValue = defaultValueInt64;
                                 }
                                 break;
-                            case typeof(System.SByte):
-                                sbyte defaultValue = 0;
-                                if (sbyte.TryParse(token.ToString(), out defaultValue))
+                            case "SByte":
+                                sbyte defaultValueSByte = 0;
+                                if (sbyte.TryParse(token.ToString(), out defaultValueSByte))
                                 {
-                                    column.DefaultValue = defaultValue;
+                                    column.DefaultValue = defaultValueSByte;
                                 }
                                 break;
-                            case typeof(System.Single):
-                                float defaultValue = 0;
-                                if (float.TryParse(token.ToString(), out defaultValue))
+                            case "Single":
+                                float defaultValueSingle = 0;
+                                if (float.TryParse(token.ToString(), out defaultValueSingle))
                                 {
-                                    column.DefaultValue = defaultValue;
+                                    column.DefaultValue = defaultValueSingle;
                                 }
                                 break;
-                            case typeof(System.String):
+                            case "String":
                                 column.DefaultValue = token.ToString();
                                 break;
-                            case typeof(System.TimeSpan):
-                                TimeSpan defaultValue = default(TimeSpan);
-                                if (TimeSpan.TryParse(token.ToString(), out defaultValue))
+                            case "TimeSpan":
+                                TimeSpan defaultValueTimeSpan = default(TimeSpan);
+                                if (TimeSpan.TryParse(token.ToString(), out defaultValueTimeSpan))
                                 {
-                                    column.DefaultValue = defaultValue;
+                                    column.DefaultValue = defaultValueTimeSpan;
                                 }
                                 break;
-                            case typeof(System.UInt16):
-                                UInt16 defaultValue = default(UInt16);
-                                if (UInt16.TryParse(token.ToString(), out defaultValue))
+                            case "UInt16":
+                                UInt16 defaultValueUInt16 = default(UInt16);
+                                if (UInt16.TryParse(token.ToString(), out defaultValueUInt16))
                                 {
-                                    column.DefaultValue = defaultValue;
+                                    column.DefaultValue = defaultValueUInt16;
                                 }
                                 break;
-                            case typeof(System.UInt32):
-                                UInt32 defaultValue = default(UInt32);
-                                if (UInt32.TryParse(token.ToString(), out defaultValue))
+                            case "UInt32":
+                                UInt32 defaultValueUInt32 = default(UInt32);
+                                if (UInt32.TryParse(token.ToString(), out defaultValueUInt32))
                                 {
-                                    column.DefaultValue = defaultValue;
+                                    column.DefaultValue = defaultValueUInt32;
                                 }
                                 break;
-                            case typeof(System.UInt64):
-                                UInt64 defaultValue = default(UInt64);
-                                if (UInt64.TryParse(token.ToString(), out defaultValue))
+                            case "UInt64":
+                                UInt64 defaultValueUInt64 = default(UInt64);
+                                if (UInt64.TryParse(token.ToString(), out defaultValueUInt64))
                                 {
-                                    column.DefaultValue = defaultValue;
+                                    column.DefaultValue = defaultValueUInt64;
                                 }
                                 break;
-                            case typeof(System.Byte[]):
+                            case "Byte[]":
                                 break;
                             // Leave as null
                         }
@@ -261,9 +264,9 @@ namespace Serialization
             }
 
             // Add the rows to the table
-            if (jObject("Rows") != null)
+            if (jObject["Rows"] != null)
             {
-                foreach (JArray jRow in jObject("Rows"))
+                foreach (JArray jRow in jObject["Rows"])
                 {
                     DataRow row = table.NewRow();
                     // Each row is just an array of objects
@@ -273,10 +276,10 @@ namespace Serialization
             }
 
             // Add the primary key to the table if supplied
-            if (jObject("PrimaryKey") != null)
+            if (jObject["PrimaryKey"] != null)
             {
                 List<DataColumn> primaryKey = new List<DataColumn>();
-                foreach (JValue jPrimaryKey in jObject("PrimaryKey"))
+                foreach (JValue jPrimaryKey in jObject["PrimaryKey"])
                 {
                     DataColumn column = table.Columns[jPrimaryKey.ToString()];
                     if (column == null)
