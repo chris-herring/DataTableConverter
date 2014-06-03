@@ -1,4 +1,3 @@
-}
 using System.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
